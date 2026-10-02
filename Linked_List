@@ -1,0 +1,84 @@
+#include <stdio.h>
+
+struct node {
+    int data;
+    struct node *next;
+};
+
+int main() {
+
+    struct node n1, n2, n3;
+    n1.data = 10;
+    n1.next = &n2;
+    n2.data = 20;
+    n2.next = &n3;
+    n3.data = 30;
+    n3.next = NULL;
+
+    struct node *head = &n1;
+
+    struct node n4;
+    n4.data = 5;
+
+    struct node *newNode = &n4; //5
+    newNode->next = head;
+    head = newNode; // head means 1st
+
+    struct node n5;
+    n5.data = 40;
+    n5.next = NULL;
+    
+    struct node *temp = head;
+    while (temp->next != NULL) {
+        temp = temp->next;
+    }
+    temp->next = &n5;
+
+    struct node n6;
+    n6.data = 25;
+    n6.next = &n3;
+    n2.next = &n6;
+
+    n2.next = n6.next; // 20->30
+
+    head = head->next;
+
+    int numtofind = 30;
+    temp = head;
+    while (temp != NULL) {
+        if (temp->data == numtofind) {
+            int found = 1;
+            printf("Found: %d\n", found);
+            break;
+        }
+        temp = temp->next;
+    }
+
+    int count = 0;
+    temp = head;
+    while (temp != NULL) {
+        count++;
+        temp = temp->next;
+    }
+    printf("Count: %d\n", count);
+
+    temp = head;
+    struct node *prev = NULL;
+    struct node *next;
+
+    while (temp != NULL) {
+        next = temp->next;
+        temp->next = prev;
+        prev = temp;
+        temp = next;
+    }
+    head = prev;
+
+    temp = head;
+    while (temp != NULL) {
+        printf("%d\n", temp->data);
+        temp = temp->next;
+    }
+
+    return 0;
+}
